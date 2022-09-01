@@ -6,14 +6,13 @@
 #    By: cmariot <cmariot@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/31 16:08:49 by cmariot           #+#    #+#              #
-#    Updated: 2022/08/31 18:40:04 by cmariot          ###   ########.fr        #
+#    Updated: 2022/09/01 08:39:24 by cmariot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
-DATABASE_VOLUME		= /var/lib/mysql
-
-WORDPRESS_VOLUME	= /var/www/html
+MARIADB_VOLUME		= /home/data/mariadb
+WORDPRESS_VOLUME	= /home/data/wordpress
 
 
 install :
