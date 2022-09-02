@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # Get the container Image
-FROM alpine:3.16.2
+FROM alpine:3
 
 # Update the index of available packages
 RUN apk update
