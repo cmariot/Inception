@@ -1,5 +1,5 @@
-CONTAINER_NAME = nginx:alpha
-IMAGE_NAME = nginx
+CONTAINER_NAME = mariadb:alpha
+IMAGE_NAME = mariadb
 
 test : build run exec
 
@@ -7,7 +7,7 @@ build :
 	docker build --tag $(CONTAINER_NAME) .
 
 run :
-	docker run -p 443:443 --detach --interactive --tty --mount source=conf,target=/app --name $(IMAGE_NAME) $(CONTAINER_NAME)
+	docker run -p 443:443 --detach --interactive --tty --name $(IMAGE_NAME) $(CONTAINER_NAME)
 
 exec :
 	docker exec --interactive --tty $(IMAGE_NAME) /bin/sh
