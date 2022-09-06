@@ -9,8 +9,5 @@ RUN apk update
 # Upgrade the currently installed packages
 RUN apk upgrade
 
-# Check for package names that match mariadb
-RUN apk search mariadb
+EXPOSE 3306
 
-# Install MariaDB 10.6 on Alpine Linux
-RUN apk add --no-cache mariadb mariadb-common mariadb-client
