@@ -30,7 +30,7 @@ services:
     ports:
       - "443:443"
     volumes:
-      - wordpress_volume:/www/wordpress
+      - wordpress_volume:/var/www/wordpress
     depends_on:
       - wordpress
     networks:
@@ -46,11 +46,12 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /Users/cmariot/data/wordpress
+      device: /home/cmariot/data/wordpress
       o: bind
   mariadb_volume:
     driver: local
     driver_opts:
       type: none
-      device: /Users/cmariot/data/mariadb
+      device: /home/cmariot/data/mariadb
       o: bind
+
