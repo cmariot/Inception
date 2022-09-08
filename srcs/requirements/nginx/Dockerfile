@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Dockerfile                                         :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: cmariot <cmariot@student.42.fr>            +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2022/09/08 00:08:16 by cmariot           #+#    #+#              #
+#    Updated: 2022/09/08 13:12:52 by cmariot          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 # syntax=docker/dockerfile:1
 
 # Get the container Image
@@ -16,15 +28,18 @@ RUN apk add --no-cache nginx openssl
 RUN adduser -D -g 'www' www
 
 # Create a directory for html files
-RUN mkdir /var/www/wordpress/
-RUN chown -R www:www /var/lib/nginx
-RUN chown -R www:www /var/www/wordpress/
+RUN mkdir /www /ssl /logs
+RUN chown -R www:www /www /ssl /logs /var/lib/nginx
 
-# Generate a SSL certificate
-RUN openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes -out /etc/ssl/cmariot.42.fr.pem -keyout /etc/ssl/cmariot.42.fr.key -subj "/C=FR/ST=Paris/L=Paris/O=42/OU=cmariot/CN=cmariot.42.fr"
+# Generate a SSL self-signed certificate/key pair
+RUN openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
+		-out /ssl/localhost.crt \
+		-keyout /ssl/localhost.key \
+		-subj "/C=FR/ST=Paris/L=Paris/O=42/OU=cmariot/CN=cmariot.42.fr"
 
 # Add the custom nginx configuration file
-COPY ./conf/nginx.conf /etc/nginx/http.d/
+#COPY ./conf/nginx.conf /etc/nginx/
+COPY ./conf/localhost.conf /etc/nginx/http.d/
 
 # Set the entrypoint on the port 443
 EXPOSE 443

@@ -9,11 +9,17 @@ RUN apk update
 # Upgrade the currently installed packages
 RUN apk upgrade
 
-RUN apk add php-fpm
-
-EXPOSE 9000
+# Install php-fpm
+RUN apk add --no-cache php php8-fpm php8-mysqli
 
 # Update php-fpm config to listen on wordpress:9000
 RUN sed -i 's/127.0.0.1/wordpress/g' /etc/php8/php-fpm.d/www.conf
 
-CMD ["php-fpm8", "-F", "-R"]
+# Copy a wordpress installation script
+COPY ./tools/wordpress_install.sh /
+
+# Expose the port 9000 for Nginx
+EXPOSE 9000
+
+# Launch php
+CMD ["sh", "wordpress_install.sh"]

@@ -1,2 +1,4 @@
-- [ ] installer wordpress
+- [ ] volume partage wordpress/nginx
+- [ ] installer wordpress dans le volume wordpress
+- [ ] wp-config.php
 - [ ] config mariadb

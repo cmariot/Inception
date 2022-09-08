@@ -6,14 +6,16 @@
 #    By: cmariot <cmariot@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/31 16:08:49 by cmariot           #+#    #+#              #
-#    Updated: 2022/09/06 23:12:13 by cmariot          ###   ########.fr        #
+#    Updated: 2022/09/08 12:37:33 by cmariot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 DOCKER_COMPOSE_PATH = srcs/docker-compose.yml
 
 start:
-	docker-compose --verbose  -f $(DOCKER_COMPOSE_PATH) up -d
+	mkdir -p ~/data/wordpress
+	mkdir -p ~/data/mariadb
+	docker-compose --verbose -f $(DOCKER_COMPOSE_PATH) up -d
 
 restart:
 	docker-compose --verbose -f $(DOCKER_COMPOSE_PATH) restart
@@ -41,4 +43,7 @@ list:
 	@docker network ls
 
 clean: stop
-	docker system prune -a
+	docker container prune
+	docker image prune -a
+	docker volume prune
+	docker network prune

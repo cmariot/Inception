@@ -6,7 +6,7 @@ services:
     container_name: mariadb
     build: requirements/mariadb
     volumes:
-      - $HOME/data/mariadb:/var/lib/mysql
+      - mariadb_volume:/var/lib/mysql
     env_file: .env
     networks:
       - inception_network
@@ -16,7 +16,7 @@ services:
     container_name: wordpress
     build: requirements/wordpress
     volumes:
-      - $HOME/data/wordpress:/var/www/wordpress
+      - wordpress_volume:/var/www/wordpress
     env_file: .env
     depends_on:
       - mariadb
@@ -30,7 +30,7 @@ services:
     ports:
       - "443:443"
     volumes:
-      - $HOME/data/wordpress:/var/www/wordpress
+      - wordpress_volume:/www/wordpress
     depends_on:
       - wordpress
     networks:
@@ -40,3 +40,17 @@ services:
 networks:
   inception_network:
     driver: bridge
+
+volumes:
+  wordpress_volume:
+    driver: local
+    driver_opts:
+      type: none
+      device: /Users/cmariot/data/wordpress
+      o: bind
+  mariadb_volume:
+    driver: local
+    driver_opts:
+      type: none
+      device: /Users/cmariot/data/mariadb
+      o: bind
