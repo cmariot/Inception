@@ -10,7 +10,7 @@ RUN apk update
 RUN apk upgrade
 
 # Install php8 and php8 packages
-RUN apk add php php8-fpm php8-mysqli
+RUN apk add php php8-fpm php8-mysqli #curl
 
 # Create the www user
 RUN adduser -D -g 'www' www
@@ -53,7 +53,9 @@ RUN sed -i "s|;*max_file_uploads =.*|max_file_uploads = ${PHP_MAX_FILE_UPLOAD}|i
 RUN sed -i "s|;*post_max_size =.*|post_max_size = ${PHP_MAX_POST}|i"												/etc/php8/php.ini
 RUN sed -i "s|;*cgi.fix_pathinfo=.*|cgi.fix_pathinfo= ${PHP_CGI_FIX_PATHINFO}|i"									/etc/php8/php.ini
 
+COPY ./tools/wordpress_istall.sh /
+
 EXPOSE 9000
 
 # Install wp and run php
-CMD ["php-fpm8", "-F", "-R"]
+CMD ["sh", "/wordpress_istall.sh"]
