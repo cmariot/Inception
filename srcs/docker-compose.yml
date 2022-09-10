@@ -46,12 +46,12 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: ${HOME}/data/wordpress
+      device: /home/cmariot/data/wordpress
       o: bind
   mariadb_volume:
     driver: local
     driver_opts:
       type: none
-      device: ${HOME}/data/mariadb
+      device: /home/cmariot/data/mariadb
       o: bind
 

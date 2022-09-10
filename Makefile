@@ -13,7 +13,10 @@
 DOCKER_COMPOSE_PATH = srcs/docker-compose.yml
 
 start:
+	mkdir -p ~/data/wordpress
+	mkdir -p ~/data/mariadb
 	sudo docker-compose --verbose  -f $(DOCKER_COMPOSE_PATH) up -d
+	sudo docker-compose -f $(DOCKER_COMPOSE_PATH) logs --tail 5 wordpress
 
 restart:
 	sudo docker-compose --verbose -f $(DOCKER_COMPOSE_PATH) restart
