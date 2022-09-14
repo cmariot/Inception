@@ -1,23 +1,33 @@
 # syntax=docker/dockerfile:1
 
 # Get the container Image
-FROM debian:buster
+FROM alpine:3
 
 # Update the index of available packages
-RUN apt-get update
+RUN apk update
 
 # Upgrade the currently installed packages
-RUN apt-get upgrade
+RUN apk upgrade
 
 # Mariadb istallation
-RUN apt-get install mariadb-client mariadb-server -y
+RUN apk add mysql mysql-client
 
-# Open the mariadb port
+# Installation Directory and File Permissions
+RUN mkdir -p /var/lib/mysql
+RUN chown -R mysql:mysql /var/lib/mysql /etc/mysql /usr/lib/mariadb /usr/bin
+
+# Add root to the mysql group
+RUN addgroup root mysql
+
+# Copy configuration files
+COPY ./conf/mariadb-server.cnf /etc/my.cnf.d/
+COPY ./conf/my.cnf /etc/
+
+# Copy initialization script
+COPY ./tools/init_database.sh /
+
+# Expose the mariadb port
 EXPOSE 3306
 
-# Copy database installation script
-COPY ./tools/init_database.sh /usr/bin
-
 # Launch the script
-CMD ["ping", "0.0.0.0"]
-#CMD ["sh", "/usr/bin/init_database.sh"]
+CMD ["sh", "/init_database.sh"]

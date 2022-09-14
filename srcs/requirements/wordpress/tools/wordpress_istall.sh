@@ -6,7 +6,7 @@
 #    By: cmariot <cmariot@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/07 14:15:26 by cmariot           #+#    #+#              #
-#    Updated: 2022/09/08 23:01:33 by cmariot          ###   ########.fr        #
+#    Updated: 2022/09/15 00:32:20 by cmariot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ then
 
 else
 
-	echo "Wordpress instalation"
+	echo "Wordpress installation ..."
 
 	cd /var/www
 
@@ -33,14 +33,16 @@ else
 	cd wordpress
 
 	# Configuration of wp-config.php
-	sed -i "s/define( 'DB_NAME', 'database_name_here' );/define( 'DB_NAME', '${DB_NAME}' );/g"			wp-config-sample.php
-	sed -i "s/define( 'DB_USER', 'username_here' );/define( 'DB_USER', '${DB_USER}' );/g"				wp-config-sample.php
-	sed -i "s/define( 'DB_PASSWORD', 'password_here' );/define( 'DB_PASSWORD', '${DB_PASSWORD}' );/g"	wp-config-sample.php
-	sed -i "s/define( 'DB_HOST', 'localhost' );/define( 'DB_HOST', '${DB_HOST}' );/g"					wp-config-sample.php
+	sed -i "s/define( 'DB_NAME', 'database_name_here' );/define( 'DB_NAME', '${MYSQL_DATABASE}' );/g"		wp-config-sample.php
+	sed -i "s/define( 'DB_USER', 'username_here' );/define( 'DB_USER', '${MYSQL_USER}' );/g"				wp-config-sample.php
+	sed -i "s/define( 'DB_PASSWORD', 'password_here' );/define( 'DB_PASSWORD', '${MYSQL_PASSWORD}' );/g"	wp-config-sample.php
+	sed -i "s/define( 'DB_HOST', 'localhost' );/define( 'DB_HOST', '${WP_HOSTNAME}' );/g"					wp-config-sample.php
 
 	# Change Authentification unique keys
 
 	mv wp-config-sample.php wp-config.php
+	
+	echo "The WordPress installation is completed."
 
 fi
 

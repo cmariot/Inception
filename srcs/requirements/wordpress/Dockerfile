@@ -10,7 +10,7 @@ RUN apk update
 RUN apk upgrade
 
 # Install php8 and php8 packages
-RUN apk add php php8-fpm php8-mysqli #curl
+RUN apk add php php8-fpm php8-mysqli
 
 # Create the www user
 RUN adduser -D -g 'www' www
@@ -18,8 +18,6 @@ RUN adduser -D -g 'www' www
 # Create a directory for html files 
 RUN mkdir -p /var/www/wordpress
 RUN chown -R www:www /var/www/wordpress
-
-# Add wordpress installation scrippt here
 
 # Declare php env variables
 ENV PHP_FPM_USER="www"

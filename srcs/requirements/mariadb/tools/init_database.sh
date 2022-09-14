@@ -1,45 +1,41 @@
 #! /bin/sh
 
-DATABESE=/var/lib/mysql/
+DATADIR=/var/lib/mysql
 
-if [ ! -z "$(ls -A $DATABESE)" ];
+# If the directory is empty
+if [ -z "$(ls -A $DATADIR)" ];
 then
 
-	echo "Database isn't empty."
+	# Create a new database
+	mysql_install_db --user=mysql --datadir=$DATADIR
 
-else
-	
-	echo "Empty"
-	mariadb_install_db
-	/etc/init.d/mysql start
+	# Launch the server
+	mysqld_safe --datadir=$DATADIR & sleep 5
 
-	echo > install_config
-	echo Y >> install_config
-	echo pass >> install_config
-	echo pass >> install_config
-	echo Y >> install_config
-	echo n >> install_config
-	echo Y >> install_config
-	echo Y >> install_config
-	mysql_secure_installation < install_config
-	rm install_config
+	# Secure database
+	cat << EOF | mysql_secure_installation
 
-	sed "s/#port/port/g" /etc/mysql/mariadb.conf.d/50-server.cnf
-	sed "s/127.0.0.1/0.0.0.0/g" /etc/mysql/mariadb.conf.d/50-server.cnf
+Y
+n
+Y
+Y
+Y
+Y
+EOF
 
-	mysql -uroot
+	# Create a database, a local user and a remote user
+	cat << EOF | mariadb
+create database $MYSQL_DATABASE;
+grant all privileges on $MYSQL_DATABASE.* TO "$MYSQL_USER"@'localhost' identified by "$MYSQL_PASSWORD";
+grant all privileges on $MYSQL_DATABASE.* TO "$MYSQL_USER"@'%' identified by "$MYSQL_PASSWORD";
+flush privileges;
+EOF
 
-	echo "CREATE USER 'user'@'localhost' identified by 'pass' ;" > database.create
-	echo "CREATE DATABASE IF NOT EXISTS wordpress ;" >> database.create
-	echo "GRANT ALL PRIVILEGES ON *.* TO 'user@'%' IDENTIFIED BY 'pass' ;" >> database.create
-	echo "FLUSH PRIVILEGES ;" >> database.create
-	echo "exit" >> database.create
-	
-	mysql < database.create
-	rm database.create
-
-	service mysql stop
+	# Kill the database
+	pkill mariadb
+	pkill mysqld_safe
 
 fi
 
-mysqld
+# Launch the server
+mysqld_safe --datadir=$DATADIR
