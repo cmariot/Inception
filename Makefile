@@ -6,7 +6,7 @@
 #    By: cmariot <cmariot@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/31 16:08:49 by cmariot           #+#    #+#              #
-#    Updated: 2022/09/15 00:19:06 by cmariot          ###   ########.fr        #
+#    Updated: 2022/09/15 01:22:21 by cmariot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,24 +23,25 @@ DOCKER_COMPOSE_COMMAND		= sudo docker compose \
 #   Makefile rules :                                                           #
 #                                                                              #
 # - up :		Create and start containers                                    #
+#                                                                              #
+# - stop :		Stop services                                                  #
+# - start :		Start services                                                 #
+# - restart :	Restart services                                               #
+#                                                                              #
 # - clean :		Stop and remove containers, networks, and images               #
 # - fclean :	Stop and remove containers, networks, images, and volumes      #
 # - re :		fclean up                                                      #
 #                                                                              #
-# - sh_nginx / sh_wordpress / sh_mariadb :		Launch a shell in containers   #
-# - log_nginx / log_wordpress / log_mariadb :	View output from containers    #
-# - top_nginx / top_wordpress / top_mariadb :	Display the running processes  #
-#                                                                              #
-# - ps :		List containers                                                #
-# - image :		List images                                                    #
-# - list :		List containers, networks, images, and volumes                 #
-#                                                                              #
 # - pause :		Pause services                                                 #
 # - unpause :	Unpause services                                               #
 #                                                                              #
-# - start :		Start services                                                 #
-# - stop :		Stop services                                                  #
-# - restart :	Restart services                                               #
+# - list :		List containers, networks, images, and volumes                 #
+# - ps :		List containers                                                #
+# - image :		List images                                                    #
+#                                                                              #
+# - sh_nginx / sh_wordpress / sh_mariadb :		Launch a shell in containers   #
+# - log_nginx / log_wordpress / log_mariadb :	View output from containers    #
+# - top_nginx / top_wordpress / top_mariadb :	Display the running processes  #
 #                                                                              #
 # **************************************************************************** #
 

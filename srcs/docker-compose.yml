@@ -11,7 +11,7 @@ services:
     env_file: .env
     networks:
       - network
-    restart: always
+    restart: on-failure
 
   wordpress:
     container_name: wordpress
@@ -24,7 +24,7 @@ services:
       - mariadb
     networks:
       - network
-    restart: always
+    restart: on-failure
 
   nginx:
     container_name: nginx
@@ -38,7 +38,7 @@ services:
       - wordpress
     networks:
       - network
-    restart: always
+    restart: on-failure
 
 networks:
   network:
@@ -57,4 +57,3 @@ volumes:
       type: none
       device: /Users/cmariot/data/mariadb
       o: bind
-

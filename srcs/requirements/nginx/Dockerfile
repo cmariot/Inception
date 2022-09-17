@@ -21,7 +21,10 @@ RUN chown -R www:www /var/lib/nginx
 RUN chown -R www:www /var/www/wordpress/
 
 # Generate a SSL certificate
-RUN openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes -out /ssl/cmariot.42.fr.pem -keyout /ssl/cmariot.42.fr.key -subj "/C=FR/ST=Paris/L=Paris/O=42/OU=cmariot/CN=cmariot.42.fr"
+RUN openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
+		-out /ssl/cmariot.42.fr.pem \
+		-keyout /ssl/cmariot.42.fr.key \
+		-subj "/C=FR/ST=Paris/L=Paris/O=42/OU=cmariot/CN=cmariot.42.fr"
 
 # Add the custom nginx configuration file
 COPY ./conf/cmariot.42.fr.conf /etc/nginx/http.d/

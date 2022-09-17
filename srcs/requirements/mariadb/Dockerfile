@@ -10,21 +10,15 @@ RUN apk update
 RUN apk upgrade
 
 # Mariadb istallation
-RUN apk add mysql mysql-client
+RUN apk add mariadb mariadb-client mariadb-common openrc
 
-# Installation Directory and File Permissions
-RUN mkdir -p /var/lib/mysql
-RUN chown -R mysql:mysql /var/lib/mysql /etc/mysql /usr/lib/mariadb /usr/bin
-
-# Add root to the mysql group
-RUN addgroup root mysql
-
-# Copy configuration files
-COPY ./conf/mariadb-server.cnf /etc/my.cnf.d/
-COPY ./conf/my.cnf /etc/
+RUN openrc
+RUN touch /run/openrc/softlevel
 
 # Copy initialization script
 COPY ./tools/init_database.sh /
+COPY ./conf/mariadb-server.cnf /etc/my.cnf.d/
+COPY ./conf/my.cnf /etc/
 
 # Expose the mariadb port
 EXPOSE 3306
