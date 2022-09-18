@@ -10,7 +10,11 @@ RUN apk update
 RUN apk upgrade
 
 # Install php8 and php8 packages
-RUN apk add php php8-fpm php8-mysqli
+RUN apk add php php8-fpm php8-mysqli \
+	php8-gd php8-curl php8-dom \
+	php8-exif php8-fileinfo php8-mbstring \
+	php8-zip php8-iconv php8-intl \
+	php8-pecl-imagick
 
 # Create the www user
 RUN adduser -D -g 'www' www

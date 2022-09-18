@@ -20,7 +20,7 @@ RUN mkdir -p /var/www/wordpress/ /ssl /log
 RUN chown -R www:www /var/lib/nginx
 RUN chown -R www:www /var/www/wordpress/
 
-# Generate a SSL certificate
+# Generate an auto-signed SSL key/certificate pair
 RUN openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
 		-out /ssl/cmariot.42.fr.pem \
 		-keyout /ssl/cmariot.42.fr.key \
