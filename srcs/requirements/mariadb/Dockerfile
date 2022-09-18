@@ -12,6 +12,7 @@ RUN apk upgrade
 # Mariadb istallation
 RUN apk add mariadb mariadb-client mariadb-common openrc
 
+# Launch openrc for rc-service
 RUN openrc
 RUN touch /run/openrc/softlevel
 
@@ -19,6 +20,7 @@ RUN touch /run/openrc/softlevel
 COPY ./tools/init_database.sh /
 COPY ./conf/mariadb-server.cnf /etc/my.cnf.d/
 COPY ./conf/my.cnf /etc/
+COPY ./conf/cmariot.42.fr.sql /
 
 # Expose the mariadb port
 EXPOSE 3306
