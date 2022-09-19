@@ -1,26 +1,26 @@
 # syntax=docker/dockerfile:1
 
 # Get the container Image
-FROM alpine:3
+FROM alpine:3.16
 
 # Update the index of available packages
-RUN apk update
-
 # Upgrade the currently installed packages
-RUN apk upgrade
-
-# Mariadb istallation
-RUN apk add mariadb mariadb-client mariadb-common openrc
+# Install tools required for Mariadb
+RUN apk update && apk upgrade && apk add --no-cache\
+	mariadb\
+	mariadb-client\
+	mariadb-common\
+	openrc
 
 # Launch openrc for rc-service
-RUN openrc
-RUN touch /run/openrc/softlevel
+RUN openrc\
+	&& touch /run/openrc/softlevel
 
 # Copy initialization script
-COPY ./tools/init_database.sh /
-COPY ./conf/mariadb-server.cnf /etc/my.cnf.d/
-COPY ./conf/my.cnf /etc/
-COPY ./conf/cmariot.42.fr.sql /
+COPY ./conf/mariadb-server.cnf	/etc/my.cnf.d/
+COPY ./conf/my.cnf				/etc/
+COPY ./conf/cmariot.42.fr.sql	/
+COPY ./tools/init_database.sh	/
 
 # Expose the mariadb port
 EXPOSE 3306

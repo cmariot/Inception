@@ -1,18 +1,8 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    wordpress_istall.sh                                :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: cmariot <cmariot@student.42.fr>            +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/09/07 14:15:26 by cmariot           #+#    #+#              #
-#    Updated: 2022/09/18 16:44:07 by cmariot          ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 #! /bin/sh
 
+
 WORDPRESS_CONFIG=/var/www/wordpress/
+
 
 # Download wordpress and untar it
 download_wordpress()
@@ -22,6 +12,7 @@ download_wordpress()
 	tar -xvzf latest.tar.gz
 	rm latest.tar.gz
 }
+
 
 # Configuration of wp-config.php
 update_wp_config_files()
@@ -42,6 +33,7 @@ update_wp_config_files()
 	rm -f tmp_file.php salts.txt wp-config-sample.php
 }
 
+
 remove_unused_plugins_and_themes()
 {
 	# Plugins
@@ -53,19 +45,21 @@ remove_unused_plugins_and_themes()
 		/var/www/wordpress/wp-content/themes/twentytwentyone
 }
 
-if [ ! -z "$(ls -A $WORDPRESS_CONFIG)" ];
-then
 
-	echo "WordPress is already downloaded."
+main()
+{
+	if [ ! -z "$(ls -A $WORDPRESS_CONFIG)" ];
+	then
+		echo "WordPress is already downloaded."
+	else
+		echo "Wordpress installation ..."
+		download_wordpress
+		update_wp_config_files
+		remove_unused_plugins_and_themes
+		echo "The WordPress installation is completed."
+	fi
+}
 
-else
 
-	echo "Wordpress installation ..."
-	download_wordpress
-	update_wp_config_files
-	remove_unused_plugins_and_themes
-	echo "The WordPress installation is completed."
-
-fi
-
-exec php-fpm8 -F -R
+main
+exec php-fpm8 -F
