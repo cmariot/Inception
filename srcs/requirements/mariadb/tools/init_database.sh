@@ -22,19 +22,18 @@ EOF
 # Create the wordpress database
 create_database()
 {
-	cat << EOF | mariadb
-create database $MYSQL_DATABASE;
-grant all privileges on $MYSQL_DATABASE.* TO "$MYSQL_USER"@'localhost' identified by "$MYSQL_PASSWORD";
-grant all privileges on $MYSQL_DATABASE.* TO "$MYSQL_USER"@'%' identified by "$MYSQL_PASSWORD";
-flush privileges;
+	cat << EOF | mariadb -u root
+CREATE DATABASE $MYSQL_DATABASE;
+GRANT ALL PRIVILEGES ON $MYSQL_DATABASE.* TO "$MYSQL_USER"@"localhost" IDENTIFIED BY "$MYSQL_PASSWORD";
+GRANT ALL PRIVILEGES ON $MYSQL_DATABASE.* TO "$MYSQL_USER"@"%" IDENTIFIED BY "$MYSQL_PASSWORD";
+FLUSH PRIVILEGES;
 EOF
 }
-
 
 # Import the default wordress database (with 2 users)
 import_wordpress_database()
 {
-	mysql -u root wordpress < /cmariot.42.fr.sql
+	mariadb -u root wordpress < /cmariot.42.fr.sql
 	rm -f /cmariot.42.fr.sql
 }
 

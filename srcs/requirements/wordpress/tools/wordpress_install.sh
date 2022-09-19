@@ -8,9 +8,9 @@ WORDPRESS_CONFIG=/var/www/wordpress/
 download_wordpress()
 {
 	cd /var/www
-	wget https://wordpress.org/latest.tar.gz
-	tar -xvzf latest.tar.gz
-	rm latest.tar.gz
+	curl -o latest-fr_FR.tar.gz https://fr.wordpress.org/latest-fr_FR.tar.gz
+	tar -xvzf latest-fr_FR.tar.gz
+	rm latest-fr_FR.tar.gz
 }
 
 
@@ -19,10 +19,10 @@ update_wp_config_files()
 {
 	cd /var/www/wordpress
 	# MariaDB Variables
-	sed -i "s/define( 'DB_NAME', 'database_name_here' );/define( 'DB_NAME', '${MYSQL_DATABASE}' );/g"		wp-config-sample.php
-	sed -i "s/define( 'DB_USER', 'username_here' );/define( 'DB_USER', '${MYSQL_USER}' );/g"				wp-config-sample.php
-	sed -i "s/define( 'DB_PASSWORD', 'password_here' );/define( 'DB_PASSWORD', '${MYSQL_PASSWORD}' );/g"	wp-config-sample.php
-	sed -i "s/define( 'DB_HOST', 'localhost' );/define( 'DB_HOST', 'mariadb:3306' );/g"						wp-config-sample.php
+	sed -i "s/'votre_nom_de_bdd'/'${MYSQL_DATABASE}'/g"										wp-config-sample.php
+	sed -i "s/'votre_utilisateur_de_bdd'/'${MYSQL_USER}'/g"									wp-config-sample.php
+	sed -i "s/'votre_mdp_de_bdd'/'${MYSQL_PASSWORD}'/g"										wp-config-sample.php
+	sed -i "s/define( 'DB_HOST', 'localhost' );/define( 'DB_HOST', 'mariadb:3306' );/g"		wp-config-sample.php
 	# Change Authentification unique keys
 	wget -O salts.txt https://api.wordpress.org/secret-key/1.1/salt/
 	head -50 wp-config-sample.php			> tmp_file.php
