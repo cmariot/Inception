@@ -40,6 +40,36 @@ services:
       - network
     restart: on-failure
 
+  redis:
+    container_name: redis
+    build: bonus/redis
+    image: redis:inception
+    networks:
+        - network
+    restart: on-failure
+
+  adminer:
+    container_name: adminer
+    build: bonus/adminer
+    image: adminer:inception
+    depends_on:
+      - wordpress
+    volumes:
+      - wordpress_volume:/var/www/wordpress
+    restart: on-failure
+
+  ftp:
+    container_name: ftp
+    build: bonus/ftp
+    image: ftp:inception
+    networks:
+      - network
+    depends_on:
+      - wordpress
+    volumes:
+      - wordpress_volume:/var/www/wordpress
+    restart: on-failure
+
 networks:
   network:
     driver: bridge

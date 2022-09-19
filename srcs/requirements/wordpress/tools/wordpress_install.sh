@@ -25,11 +25,12 @@ update_wp_config_files()
 	sed -i "s/define( 'DB_HOST', 'localhost' );/define( 'DB_HOST', 'mariadb:3306' );/g"		wp-config-sample.php
 	# Change Authentification unique keys
 	wget -O salts.txt https://api.wordpress.org/secret-key/1.1/salt/
-	head -50 wp-config-sample.php			> tmp_file.php
-	cat salts.txt							>> tmp_file.php
-	tail -38 wp-config-sample.php			>> tmp_file.php
-	echo "define('FS_METHOD', 'direct');"	>> tmp_file.php
-	sed 's/\r//' tmp_file.php				> wp-config.php
+	head -55 wp-config-sample.php				> tmp_file.php
+	cat salts.txt								>> tmp_file.php
+	echo "define('WP_REDIS_HOST', 'redis');"	>> tmp_file.php
+	tail -35 wp-config-sample.php				>> tmp_file.php
+	echo "define('FS_METHOD', 'direct');"		>> tmp_file.php
+	sed 's/\r//' tmp_file.php					> wp-config.php
 	rm -f tmp_file.php salts.txt wp-config-sample.php
 }
 
@@ -46,6 +47,22 @@ remove_unused_plugins_and_themes()
 }
 
 
+install_wp_cli()
+{
+	curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+	chmod +x wp-cli.phar
+	mv wp-cli.phar /usr/local/bin/wp
+}
+
+
+install_redis_extension()
+{
+	cd /var/www/wordpress
+	wp plugin install redis-cache --activate
+	wp redis enable
+}
+
+
 main()
 {
 	if [ ! -z "$(ls -A $WORDPRESS_CONFIG)" ];
@@ -56,6 +73,8 @@ main()
 		download_wordpress
 		update_wp_config_files
 		remove_unused_plugins_and_themes
+		install_wp_cli
+		install_redis_extension
 		echo "The WordPress installation is completed."
 	fi
 }

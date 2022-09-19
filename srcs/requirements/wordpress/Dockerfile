@@ -10,6 +10,7 @@ RUN apk update && apk upgrade && apk add --no-cache\
 	curl\
 	php\
 	php8-curl\
+	php8-ctype\
 	php8-dom\
 	php8-exif\
 	php8-fileinfo\
@@ -20,6 +21,9 @@ RUN apk update && apk upgrade && apk add --no-cache\
 	php8-mbstring\
 	php8-mysqli\
 	php8-pecl-imagick\
+	php8-phar\
+	php8-redis\
+	php8-session\
 	php8-xml\
 	php8-zip
 

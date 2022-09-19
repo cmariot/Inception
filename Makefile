@@ -6,7 +6,7 @@
 #    By: cmariot <cmariot@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/31 16:08:49 by cmariot           #+#    #+#              #
-#    Updated: 2022/09/15 01:22:21 by cmariot          ###   ########.fr        #
+#    Updated: 2022/09/19 21:44:23 by cmariot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,6 +67,15 @@ sh_mariadb:
 sh_wordpress:
 	${DOCKER_COMPOSE_COMMAND} exec wordpress sh
 
+sh_redis:
+	${DOCKER_COMPOSE_COMMAND} exec redis sh
+
+sh_ftp:
+	${DOCKER_COMPOSE_COMMAND} exec ftp sh
+
+sh_adminer:
+	${DOCKER_COMPOSE_COMMAND} exec adminer sh
+
 log_nginx:
 	${DOCKER_COMPOSE_COMMAND} logs --follow nginx
 	
@@ -75,6 +84,12 @@ log_mariadb:
 
 log_wordpress:
 	${DOCKER_COMPOSE_COMMAND} logs --follow wordpress
+
+log_redis:
+	${DOCKER_COMPOSE_COMMAND} logs --follow redis
+
+log_ftp:
+	${DOCKER_COMPOSE_COMMAND} logs --follow ftp
 
 top_nginx:
 	sudo docker top nginx
