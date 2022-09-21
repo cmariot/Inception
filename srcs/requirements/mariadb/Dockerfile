@@ -19,7 +19,6 @@ RUN openrc\
 # Copy initialization script
 COPY ./conf/mariadb-server.cnf	/etc/my.cnf.d/
 COPY ./conf/my.cnf				/etc/
-COPY ./conf/cmariot.42.fr.sql	/
 COPY ./tools/init_database.sh	/
 
 # Expose the mariadb port

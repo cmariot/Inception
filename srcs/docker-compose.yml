@@ -10,7 +10,7 @@ services:
       - mariadb_volume:/var/lib/mysql
     env_file: .env
     networks:
-      - network
+      - docker_network
     restart: on-failure
 
   wordpress:
@@ -23,7 +23,7 @@ services:
     depends_on:
       - mariadb
     networks:
-      - network
+      - docker_network
     restart: on-failure
 
   nginx:
@@ -37,7 +37,7 @@ services:
     depends_on:
       - wordpress
     networks:
-      - network
+      - docker_network
     restart: on-failure
 
   redis:
@@ -45,7 +45,7 @@ services:
     build: bonus/redis
     image: redis:inception
     networks:
-        - network
+        - docker_network
     restart: on-failure
 
   adminer:
@@ -63,7 +63,7 @@ services:
     build: bonus/ftp
     image: ftp:inception
     networks:
-      - network
+      - docker_network
     depends_on:
       - wordpress
     volumes:
@@ -71,7 +71,7 @@ services:
     restart: on-failure
 
 networks:
-  network:
+  docker_network:
     driver: bridge
 
 volumes:
@@ -79,11 +79,11 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /Users/cmariot/data/wordpress
+      device: /home/cmariot/data/wordpress
       o: bind
   mariadb_volume:
     driver: local
     driver_opts:
       type: none
-      device: /Users/cmariot/data/mariadb
+      device: /home/cmariot/data/mariadb
       o: bind

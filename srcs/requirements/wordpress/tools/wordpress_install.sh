@@ -1,52 +1,10 @@
 #! /bin/sh
 
 
-WORDPRESS_CONFIG=/var/www/wordpress/
+WORDPRESS_CONFIG_FILE=/var/www/wordpress/wp-config.php
 
 
-# Download wordpress and untar it
-download_wordpress()
-{
-	cd /var/www
-	curl -o latest-fr_FR.tar.gz https://fr.wordpress.org/latest-fr_FR.tar.gz
-	tar -xvzf latest-fr_FR.tar.gz
-	rm latest-fr_FR.tar.gz
-}
-
-
-# Configuration of wp-config.php
-update_wp_config_files()
-{
-	cd /var/www/wordpress
-	# MariaDB Variables
-	sed -i "s/'votre_nom_de_bdd'/'${MYSQL_DATABASE}'/g"										wp-config-sample.php
-	sed -i "s/'votre_utilisateur_de_bdd'/'${MYSQL_USER}'/g"									wp-config-sample.php
-	sed -i "s/'votre_mdp_de_bdd'/'${MYSQL_PASSWORD}'/g"										wp-config-sample.php
-	sed -i "s/define( 'DB_HOST', 'localhost' );/define( 'DB_HOST', 'mariadb:3306' );/g"		wp-config-sample.php
-	# Change Authentification unique keys
-	wget -O salts.txt https://api.wordpress.org/secret-key/1.1/salt/
-	head -55 wp-config-sample.php				> tmp_file.php
-	cat salts.txt								>> tmp_file.php
-	echo "define('WP_REDIS_HOST', 'redis');"	>> tmp_file.php
-	tail -35 wp-config-sample.php				>> tmp_file.php
-	echo "define('FS_METHOD', 'direct');"		>> tmp_file.php
-	sed 's/\r//' tmp_file.php					> wp-config.php
-	rm -f tmp_file.php salts.txt wp-config-sample.php
-}
-
-
-remove_unused_plugins_and_themes()
-{
-	# Plugins
-	rm -rf /var/www/wordpress/wp-content/plugins/akismet \
-		/var/www/wordpress/wp-content/plugins/hello.php \
-		/var/www/wordpress/wp-content/plugins/index.php
-	# Themes
-	rm -rf /var/www/wordpress/wp-content/themes/twentytwenty \
-		/var/www/wordpress/wp-content/themes/twentytwentyone
-}
-
-
+# WP-CLI = Command line interface for WordPress
 install_wp_cli()
 {
 	curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
@@ -55,8 +13,65 @@ install_wp_cli()
 }
 
 
+# Download wordpress
+download_wordpress()
+{
+	echo "Downloading WordPress"
+	wp core download --path=/var/www/wordpress --force --skip-content
+}
+
+
+# Configuration of wp-config.php
+config_wordpress()
+{
+	echo "WordPress configuration"
+	cd /var/www/wordpress
+
+	wp config create \
+		--dbname=${MYSQL_DATABASE} \
+		--dbuser=${MYSQL_USER} \
+		--dbpass=${MYSQL_PASSWORD} \
+		--dbhost=${MYSQL_DB_HOST} \
+		--dbprefix=${MYSQL_DB_PREFIX}
+
+	sed -i "61i define('WP_REDIS_HOST', 'redis');" wp-config.php
+	sed -i "62i define('FS_METHOD', 'direct');" wp-config.php
+}
+
+
+# Wordpress installation
+install_wordpress()
+{
+	echo "WordPress installation"
+	cd /var/www/wordpress
+
+	wp core install \
+		--url=${SITE_URL} \
+		--title=${SITE_TITLE} \
+		--admin_user=${WP_ADMIN_USER} \
+		--admin_password=${WP_ADMIN_PASSWORD} \
+		--admin_email=${WP_ADMIN_EMAIL} \
+		--skip-email
+
+	#Change permalinks structure
+	wp rewrite structure /%postname%/
+
+	# Install the default theme
+	wp theme install twentytwentytwo --force
+}
+
+
+# Create the second wordpress user
+create_user()
+{
+	wp user create ${WP_USER} ${WP_USER_EMAIL} --user_pass=${WP_USER_PASSORD}
+}
+
+
+# Install and activate wordpress extensions
 install_redis_extension()
 {
+	echo "Installing the Redis extension"
 	cd /var/www/wordpress
 	wp plugin install redis-cache --activate
 	wp redis enable
@@ -65,16 +80,19 @@ install_redis_extension()
 
 main()
 {
-	if [ ! -z "$(ls -A $WORDPRESS_CONFIG)" ];
+	install_wp_cli
+	if [ -f "$WORDPRESS_CONFIG_FILE" ];
 	then
 		echo "WordPress is already downloaded."
 	else
 		echo "Wordpress installation ..."
 		download_wordpress
-		update_wp_config_files
-		remove_unused_plugins_and_themes
-		install_wp_cli
+		config_wordpress
+		install_wordpress
+		create_user
 		install_redis_extension
+		chown -R www:www /var/www/wordpress
+		wp cron event run --due-now
 		echo "The WordPress installation is completed."
 	fi
 }

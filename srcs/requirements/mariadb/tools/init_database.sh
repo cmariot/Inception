@@ -30,20 +30,12 @@ FLUSH PRIVILEGES;
 EOF
 }
 
-# Import the default wordress database (with 2 users)
-import_wordpress_database()
-{
-	mariadb -u root wordpress < /cmariot.42.fr.sql
-	rm -f /cmariot.42.fr.sql
-}
-
 
 main()
 {
 	if [ ! -z "$(ls -A $DATADIR)" ];
 	then
 		echo "The database doesn't need to be created."
-		rm -f /cmariot.42.fr.sql
 		rc-service mariadb start
 		rc-service mariadb stop
 	else
@@ -52,7 +44,6 @@ main()
 		rc-service mariadb start
 		secure_database
 		create_database
-		import_wordpress_database
 		rc-service mariadb restart
 		rc-service mariadb stop
 		echo "The database installation is completed."

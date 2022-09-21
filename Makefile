@@ -6,13 +6,15 @@
 #    By: cmariot <cmariot@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/31 16:08:49 by cmariot           #+#    #+#              #
-#    Updated: 2022/09/19 21:44:23 by cmariot          ###   ########.fr        #
+#    Updated: 2022/09/20 18:57:47 by cmariot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 PROJECT_NAME 				= inception
 
 DOCKER_COMPOSE_FILE			= srcs/docker-compose.yml
+
+HOME_PATH					= /home/cmariot
 
 DOCKER_COMPOSE_COMMAND		= sudo docker compose \
 							  -f ${DOCKER_COMPOSE_FILE} \
@@ -132,7 +134,7 @@ restart:
 	${DOCKER_COMPOSE_COMMAND} restart
 
 create_directories:
-	mkdir -p ~/data/mariadb ~/data/wordpress
+	mkdir -p ${HOME_PATH}/data/mariadb ${HOME_PATH}/data/wordpress
 
 rm_directories:
-	rm -rf ~/data/mariadb ~/data/wordpress
+	sudo rm -rf ${HOME_PATH}/data/mariadb ${HOME_PATH}/data/wordpress
