@@ -42,7 +42,7 @@ services:
 
   redis:
     container_name: redis
-    build: bonus/redis
+    build: requirements/bonus/redis
     image: redis:inception
     networks:
         - docker_network
@@ -50,7 +50,7 @@ services:
 
   adminer:
     container_name: adminer
-    build: bonus/adminer
+    build: requirements/bonus/adminer
     image: adminer:inception
     depends_on:
       - wordpress
@@ -60,7 +60,7 @@ services:
 
   ftp:
     container_name: ftp
-    build: bonus/ftp
+    build: requirements/bonus/ftp
     image: ftp:inception
     networks:
       - docker_network
