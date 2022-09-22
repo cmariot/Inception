@@ -45,7 +45,7 @@ services:
     build: requirements/bonus/redis
     image: redis:inception
     networks:
-        - docker_network
+      - docker_network
     restart: on-failure
 
   adminer:
