@@ -23,7 +23,8 @@ RUN mkdir -p /var/www/wordpress/\
 RUN openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
 	-out /ssl/cmariot.42.fr.pem \
 	-keyout /ssl/cmariot.42.fr.key \
-	-subj "/C=FR/ST=Paris/L=Paris/O=42/OU=student/CN=cmariot"
+	-subj "/C=FR/ST=Paris/L=Paris/O=42/OU=student/CN=cmariot" &&\
+	chmod 600 /ssl/cmariot.42.fr.pem /ssl/cmariot.42.fr.key
 
 # Add the custom nginx configuration file
 COPY ./conf/cmariot.42.fr.conf /etc/nginx/http.d/

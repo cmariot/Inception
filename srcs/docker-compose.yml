@@ -73,6 +73,16 @@ services:
       - wordpress_volume:/var/www/wordpress
     restart: on-failure
 
+  website:
+    container_name: website
+    build: requirements/bonus/website
+    image: website:inception
+    depends_on:
+      - wordpress
+    volumes:
+      - wordpress_volume:/var/www/wordpress
+    restart: on-failure
+
 networks:
   docker_network:
     driver: bridge
