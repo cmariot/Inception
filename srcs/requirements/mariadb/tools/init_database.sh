@@ -40,7 +40,7 @@ main()
 		rc-service mariadb stop
 	else
 		echo "Database installation ..."
-		/etc/init.d/mariadb setup
+		mariadb-install-db --rpm
 		rc-service mariadb start
 		secure_database
 		create_database

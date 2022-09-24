@@ -134,7 +134,7 @@ restart:
 	${DOCKER_COMPOSE_COMMAND} restart
 
 create_directories:
-	mkdir -p ${HOME_PATH}/data/mariadb ${HOME_PATH}/data/wordpress
+	sudo mkdir -p ${HOME_PATH}/data/mariadb ${HOME_PATH}/data/wordpress
 
 rm_directories:
 	sudo rm -rf ${HOME_PATH}/data/mariadb ${HOME_PATH}/data/wordpress
