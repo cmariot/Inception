@@ -87,6 +87,7 @@ main()
 	else
 		echo "Wordpress installation ..."
 		download_wordpress
+		sleep 10
 		config_wordpress
 		install_wordpress
 		create_user
