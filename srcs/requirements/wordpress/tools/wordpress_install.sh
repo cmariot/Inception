@@ -27,6 +27,7 @@ config_wordpress()
 	echo "WordPress configuration"
 	cd /var/www/wordpress
 
+	sleep 10
 	wp config create \
 		--dbname=${MYSQL_DATABASE} \
 		--dbuser=${MYSQL_USER} \
@@ -87,7 +88,6 @@ main()
 	else
 		echo "Wordpress installation ..."
 		download_wordpress
-		sleep 10
 		config_wordpress
 		install_wordpress
 		create_user
