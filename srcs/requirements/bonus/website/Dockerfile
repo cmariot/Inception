@@ -9,6 +9,7 @@ RUN apk update && apk upgrade
 
 RUN mkdir -p /var/www/static
 COPY ./site/* /var/www/static/
+RUN wget -O  /var/www/static/three.js https://threejs.org/build/three.js
 
 VOLUME /var/www/static
 
