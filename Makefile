@@ -6,7 +6,7 @@
 #    By: cmariot <cmariot@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/31 16:08:49 by cmariot           #+#    #+#              #
-#    Updated: 2022/09/20 18:57:47 by cmariot          ###   ########.fr        #
+#    Updated: 2022/09/27 15:06:15 by cmariot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,7 +56,7 @@ clean: stop
 
 fclean: stop rm_directories
 	sudo docker system prune -a --force --volumes
-	sudo docker volume rm -f inception_mariadb_volume inception_wordpress_volume
+	sudo docker volume rm -f inception_mariadb_volume inception_wordpress_volume inception_static_website_volume
 
 re: fclean up
 
@@ -78,6 +78,9 @@ sh_ftp:
 sh_adminer:
 	${DOCKER_COMPOSE_COMMAND} exec adminer sh
 
+sh_portainer:
+	${DOCKER_COMPOSE_COMMAND} exec portainer sh
+
 log_nginx:
 	${DOCKER_COMPOSE_COMMAND} logs --follow nginx
 	
@@ -92,6 +95,9 @@ log_redis:
 
 log_ftp:
 	${DOCKER_COMPOSE_COMMAND} logs --follow ftp
+
+log_portainer:
+	${DOCKER_COMPOSE_COMMAND} logs --follow portainer
 
 top_nginx:
 	sudo docker top nginx
@@ -134,7 +140,11 @@ restart:
 	${DOCKER_COMPOSE_COMMAND} restart
 
 create_directories:
-	sudo mkdir -p ${HOME_PATH}/data/mariadb ${HOME_PATH}/data/wordpress
+	sudo mkdir -p ${HOME_PATH}/data/mariadb\
+		${HOME_PATH}/data/wordpress\
+		${HOME_PATH}/data/static_website
 
 rm_directories:
-	sudo rm -rf ${HOME_PATH}/data/mariadb ${HOME_PATH}/data/wordpress
+	sudo rm -rf ${HOME_PATH}/data/mariadb\
+		${HOME_PATH}/data/wordpress\
+		${HOME_PATH}/data/static_website

@@ -7,6 +7,9 @@ FROM alpine:3.16
 # Upgrade the currently installed packages
 RUN apk update && apk upgrade
 
-COPY ./site /var/www/wordpress/wp-content/themes/static_website
+RUN mkdir -p /var/www/static
+COPY ./site/* /var/www/static/
+
+VOLUME /var/www/static
 
 ENTRYPOINT ["sh"]

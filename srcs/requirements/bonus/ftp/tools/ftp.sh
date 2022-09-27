@@ -38,5 +38,4 @@ main()
 
 main
 # Launch the ftp server with the pid 1
-vsftpd /etc/vsftpd/vsftpd.conf
-exec "$@"
+exec vsftpd /etc/vsftpd/vsftpd.conf

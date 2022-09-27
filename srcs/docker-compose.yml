@@ -34,6 +34,7 @@ services:
       - "443:443"
     volumes:
       - wordpress_volume:/var/www/wordpress
+      - static_website_volume:/var/www/static
     depends_on:
       - wordpress
     networks:
@@ -67,12 +68,12 @@ services:
     env_file: .env
     ports:
       - "21:21"
-    networks:
-      - docker_network
     depends_on:
       - wordpress
     volumes:
       - wordpress_volume:/var/www/wordpress
+    networks:
+      - docker_network
     restart: on-failure
 
   website:
@@ -80,9 +81,11 @@ services:
     build: requirements/bonus/website
     image: website:inception
     depends_on:
-      - wordpress
+      - nginx
     volumes:
-      - wordpress_volume:/var/www/wordpress
+      - static_website_volume:/var/www/static
+    networks:
+      - docker_network
     restart: on-failure
 
 networks:
@@ -101,4 +104,10 @@ volumes:
     driver_opts:
       type: none
       device: /home/cmariot/data/mariadb
+      o: bind
+  static_website_volume:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/cmariot/data/static_website
       o: bind
