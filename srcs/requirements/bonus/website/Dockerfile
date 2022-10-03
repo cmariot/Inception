@@ -8,8 +8,8 @@ FROM alpine:3.16
 RUN apk update && apk upgrade
 
 RUN mkdir -p /var/www/static
-COPY ./site/* /var/www/static/
-RUN wget -O  /var/www/static/three.js https://threejs.org/build/three.js
+COPY ./site/index.html /var/www/static/
+RUN wget -O /var/www/static/three.js https://threejs.org/build/three.js
 
 VOLUME /var/www/static
 
