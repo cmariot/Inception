@@ -29,9 +29,9 @@ RUN apk update && apk upgrade && apk add --no-cache\
 	php8-zip
 
 # Create the www user
-RUN adduser -D -g 'www' www &&\
-		mkdir -p /var/www/wordpress &&\
-		chown www:www /var/www/wordpress
+RUN adduser -D -g 'www' www\
+	&& mkdir -p /var/www/wordpress\
+	&& chown www:www /var/www/wordpress
 
 # Copy php config files
 COPY ./conf/www.conf	/etc/php8/php-fpm.d/

@@ -11,20 +11,19 @@ RUN apk update && apk upgrade && apk add --no-cache\
 	openssl
 
 # Creating new user and group 'www' for nginx
-RUN adduser -D -g 'www' www
-
 # Create a directory for html files
-RUN mkdir -p /var/www/wordpress/\
-			/var/www/static/\
-			/ssl\
-			/log\
+RUN adduser -D -g 'www' www\
+	&& mkdir -p /var/www/wordpress/\
+		/var/www/static/\
+		/ssl\
+		/log\
 	&& chown -R www:www /var/lib/nginx /var/www/wordpress/
 
 # Generate an auto-signed SSL key/certificate pair
 RUN openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
-	-out /ssl/cmariot.42.fr.pem \
-	-keyout /ssl/cmariot.42.fr.key \
-	-subj "/C=FR/ST=Paris/L=Paris/O=42/OU=student/CN=cmariot"\
+		-out /ssl/cmariot.42.fr.pem \
+		-keyout /ssl/cmariot.42.fr.key \
+		-subj "/C=FR/ST=Paris/L=Paris/O=42/OU=student/CN=cmariot"\
 	&& chmod 600 /ssl/cmariot.42.fr.pem /ssl/cmariot.42.fr.key
 
 # Add the custom nginx configuration files
