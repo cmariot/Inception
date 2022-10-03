@@ -16,7 +16,7 @@ DOCKER_COMPOSE_FILE			= srcs/docker-compose.yml
 
 HOME_PATH					= /home/cmariot
 
-DOCKER_COMPOSE_COMMAND		= sudo docker compose \
+DOCKER_COMPOSE_COMMAND		= docker compose \
 							  -f ${DOCKER_COMPOSE_FILE} \
 							  -p ${PROJECT_NAME}
 
@@ -52,11 +52,11 @@ up: create_directories
 	${DOCKER_COMPOSE_COMMAND} up --detach --pull never --build
 
 clean: stop
-	sudo docker system prune -a --force
+	docker system prune -a --force
 
 fclean: stop rm_directories
-	sudo docker system prune -a --force --volumes
-	sudo docker volume rm -f inception_mariadb_volume inception_wordpress_volume inception_static_website_volume
+	docker system prune -a --force --volumes
+	docker volume rm -f inception_mariadb_volume inception_wordpress_volume inception_static_website_volume
 
 re: fclean up
 
@@ -100,26 +100,26 @@ log_portainer:
 	${DOCKER_COMPOSE_COMMAND} logs --follow portainer
 
 top_nginx:
-	sudo docker top nginx
+	docker top nginx
 
 top_mariadb:
-	sudo docker top mariadb
+	docker top mariadb
 
 top_wordpress:
-	sudo docker top wordpress
+	docker top wordpress
 
 ps:
 	${DOCKER_COMPOSE_COMMAND} ps
 
 list:
 	@printf "CONTAINERS LIST :\n"
-	@sudo docker container ls
+	@docker container ls
 	@printf "\nIMAGES LIST :\n"
-	@sudo docker image ls
+	@docker image ls
 	@printf "\nVOLUMES LIST :\n"
-	@sudo docker volume ls
+	@docker volume ls
 	@printf "\nNETWORKS LIST :\n"
-	@sudo docker network ls
+	@docker network ls
 
 image:
 	${DOCKER_COMPOSE_COMMAND} images
@@ -140,7 +140,7 @@ restart:
 	${DOCKER_COMPOSE_COMMAND} restart
 
 create_directories:
-	sudo mkdir -p ${HOME_PATH}/data/mariadb\
+	mkdir -p ${HOME_PATH}/data/mariadb\
 		${HOME_PATH}/data/wordpress\
 		${HOME_PATH}/data/static_website
 
