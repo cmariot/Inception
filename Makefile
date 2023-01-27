@@ -40,45 +40,6 @@ sh_mariadb:
 sh_wordpress:
 	${DOCKER_COMPOSE_COMMAND} exec wordpress sh
 
-sh_redis:
-	${DOCKER_COMPOSE_COMMAND} exec redis sh
-
-sh_ftp:
-	${DOCKER_COMPOSE_COMMAND} exec ftp sh
-
-sh_adminer:
-	${DOCKER_COMPOSE_COMMAND} exec adminer sh
-
-sh_portainer:
-	${DOCKER_COMPOSE_COMMAND} exec portainer sh
-
-log_nginx:
-	${DOCKER_COMPOSE_COMMAND} logs --follow nginx
-	
-log_mariadb:
-	${DOCKER_COMPOSE_COMMAND} logs --follow mariadb
-
-log_wordpress:
-	${DOCKER_COMPOSE_COMMAND} logs --follow wordpress
-
-log_redis:
-	${DOCKER_COMPOSE_COMMAND} logs --follow redis
-
-log_ftp:
-	${DOCKER_COMPOSE_COMMAND} logs --follow ftp
-
-log_portainer:
-	${DOCKER_COMPOSE_COMMAND} logs --follow portainer
-
-top_nginx:
-	docker top nginx
-
-top_mariadb:
-	docker top mariadb
-
-top_wordpress:
-	docker top wordpress
-
 ps:
 	${DOCKER_COMPOSE_COMMAND} ps
 
