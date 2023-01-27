@@ -19,35 +19,6 @@ HOME_PATH					= /home/cmariot
 DOCKER_COMPOSE_COMMAND		= docker compose \
 							  -f ${DOCKER_COMPOSE_FILE} \
 							  -p ${PROJECT_NAME}
-
-# **************************************************************************** #
-#                                                                              #
-#   Makefile rules :                                                           #
-#                                                                              #
-# - up :		Create and start containers                                    #
-#                                                                              #
-# - stop :		Stop services                                                  #
-# - start :		Start services                                                 #
-# - restart :	Restart services                                               #
-#                                                                              #
-# - clean :		Stop and remove containers, networks, and images               #
-# - fclean :	Stop and remove containers, networks, images, and volumes      #
-# - re :		fclean up                                                      #
-#                                                                              #
-# - pause :		Pause services                                                 #
-# - unpause :	Unpause services                                               #
-#                                                                              #
-# - list :		List containers, networks, images, and volumes                 #
-# - ps :		List containers                                                #
-# - image :		List images                                                    #
-#                                                                              #
-# - sh_nginx / sh_wordpress / sh_mariadb :		Launch a shell in containers   #
-# - log_nginx / log_wordpress / log_mariadb :	View output from containers    #
-# - top_nginx / top_wordpress / top_mariadb :	Display the running processes  #
-#                                                                              #
-# **************************************************************************** #
-
-
 up: create_directories
 	${DOCKER_COMPOSE_COMMAND} up --detach --pull never --build
 
